@@ -35,7 +35,21 @@ const findAllTasks = async () => {
   };
 };
 
+const updateTaskById = async ({ id, note, status }) => {
+  const task = await taskModel.updateTaskById({ id, note, status });
+
+  if (!task) {
+    return { code: StatusCodes.BAD_REQUEST, message: '"taskId" not found.' };
+  }
+
+  return {
+    code: StatusCodes.CREATED,
+    task,
+  };
+};
+
 module.exports = {
   createTask,
   findAllTasks,
+  updateTaskById,
 };
