@@ -26,8 +26,20 @@ const updateTaskById = async (req, res) => {
   return res.status(code).json(task);
 };
 
+const updateTaskStatusById = async (req, res) => {
+  const { params: { id }, body: { status } } = req;
+  const { code, message, task } = await taskService.updateTaskById({ id, status });
+
+  if (!task) {
+    return res.status(code).json({ message });
+  }
+
+  return res.status(code).json(task);
+};
+
 module.exports = {
   createTask,
   findAllTasks,
   updateTaskById,
+  updateTaskStatusById,
 };
