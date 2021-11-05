@@ -80,9 +80,23 @@ const updateTaskStatusById = async ({ id, status }) => {
   };
 };
 
+const deleteTaskById = async (id) => {
+  const task = await taskModel.deleteTaskById(id);
+
+  if (!task) {
+    return { code: StatusCodes.BAD_REQUEST, message: '"taskId" not found.' };
+  }
+
+  return {
+    code: StatusCodes.OK,
+    task,
+  };
+};
+
 module.exports = {
   createTask,
   findAllTasks,
   updateTaskById,
   updateTaskStatusById,
+  deleteTaskById,
 };

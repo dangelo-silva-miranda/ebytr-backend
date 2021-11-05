@@ -96,10 +96,35 @@ const updateTaskStatusById = async ({ id, status }) => {
     .then(({ value }) => value);
 };
 
+const deleteTaskById = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  return connection.getConnection()
+    .then((db) => db.collection('tasks')
+      .findOneAndDelete(
+        { _id: ObjectId(id) },
+        {
+          returnOriginal: false,
+          projection: {
+            id: { $toString: '$_id' },
+            note: 1,
+            status: 1,
+            createdAt: 1,
+            updatedAt: 1,
+            _id: 0,
+          },
+        },
+      ))
+    .then(({ value }) => value);
+};
+
 module.exports = {
   createTask,
   taskExists,
   findAllTasks,
   updateTaskById,
   updateTaskStatusById,
+  deleteTaskById,
 };
