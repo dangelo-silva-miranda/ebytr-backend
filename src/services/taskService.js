@@ -22,10 +22,20 @@ const createTask = async ({ note, status }) => {
 
   return {
     code: StatusCodes.CREATED,
-    message: task,
+    task,
+  };
+};
+
+const findAllTasks = async () => {
+  const tasks = await taskModel.findAllTasks();
+
+  return {
+    code: StatusCodes.OK,
+    tasks,
   };
 };
 
 module.exports = {
   createTask,
+  findAllTasks,
 };
