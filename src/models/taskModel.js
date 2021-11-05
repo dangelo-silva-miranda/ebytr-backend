@@ -12,7 +12,7 @@ const createTask = async ({ note, status }) => connection.getConnection()
       note, status, createdAt: new Date(Date.now()), updatedAt: new Date(Date.now()),
     }))
   .then(({ insertedId, ops: [result] }) => ({
-    id: insertedId,
+    id: insertedId.toString(),
     note: result.note,
     status: result.status,
     createdAt: result.createdAt,
@@ -20,7 +20,20 @@ const createTask = async ({ note, status }) => connection.getConnection()
   }));
 
 const findAllTasks = async () => connection.getConnection()
-  .then((db) => db.collection('tasks').find().toArray());
+  .then((db) => db.collection('tasks')
+    .find(
+      {},
+      {
+        projection: {
+          id: { $toString: '$_id' },
+          note: 1,
+          status: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          _id: 0,
+        },
+      },
+    ).toArray());
 
 module.exports = {
   createTask,
