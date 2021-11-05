@@ -23,7 +23,11 @@ const createTask = async ({ note, status }) => {
   return task;
 };
 
+const findAllTasks = async () => connection.getConnection()
+  .then((db) => db.collection('tasks').find({}).toArray());
+
 module.exports = {
   createTask,
   taskExists,
+  findAllTasks,
 };
