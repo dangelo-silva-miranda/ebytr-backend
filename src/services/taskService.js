@@ -26,6 +26,16 @@ const createTask = async ({ note, status }) => {
   };
 };
 
+const findAllTasks = async () => {
+  const tasks = await taskModel.findAllTasks();
+
+  return {
+    code: StatusCodes.CREATED,
+    message: tasks,
+  };
+};
+
 module.exports = {
   createTask,
+  findAllTasks,
 };
