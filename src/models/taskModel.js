@@ -66,9 +66,40 @@ const updateTaskById = async ({ id, note, status }) => {
     .then(({ value }) => value);
 };
 
+const updateTaskStatusById = async ({ id, status }) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  return connection.getConnection()
+    .then((db) => db.collection('tasks')
+      .findOneAndUpdate(
+        { _id: ObjectId(id) },
+        {
+          $set: { status },
+          $currentDate: {
+            updatedAt: true,
+          },
+        },
+        {
+          returnOriginal: false,
+          projection: {
+            id: { $toString: '$_id' },
+            note: 1,
+            status: 1,
+            createdAt: 1,
+            updatedAt: 1,
+            _id: 0,
+          },
+        },
+      ))
+    .then(({ value }) => value);
+};
+
 module.exports = {
   createTask,
   taskExists,
   findAllTasks,
   updateTaskById,
+  updateTaskStatusById,
 };

@@ -5,19 +5,20 @@
 */
 const Joi = require('joi');
 
-const id = Joi.number().integer().positive();
 const text = Joi.string();
 
 /*
   Material consultado sobre conjunto de valores para validação
   https://stackoverflow.com/a/61913158
 */
+const status = text.valid('pendente', 'andamento', 'pronto').required();
+
 const taskDataSchema = Joi.object().keys({
-  id,
   note: text.required(),
-  status: text.valid('pendente', 'andamento', 'pronto').required(),
+  status,
 });
 
 module.exports = {
   taskDataSchema,
+  statusSchema: status,
 };
