@@ -6,8 +6,8 @@ const taskExists = async (note) => {
   return task !== null;
 };
 
-const createTask = ({ note, status }) => {
-  connection.getConnection()
+const createTask = async ({ note, status }) => {
+  const task = await connection.getConnection()
     .then((db) => db.collection('tasks')
       .insertOne({
         note, status, createdAt: new Date(Date.now()), updatedAt: new Date(Date.now()),
@@ -19,6 +19,8 @@ const createTask = ({ note, status }) => {
       createdAt: result.createdAt,
       updatedAt: result.updatedAt,
     }));
+
+  return task;
 };
 
 module.exports = {
