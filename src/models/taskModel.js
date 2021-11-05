@@ -1,5 +1,11 @@
 const connection = require('../database/connection');
 
+const taskExists = async (note) => {
+  const task = await connection.getConnection()
+    .then((db) => db.collection('tasks').findOne({ note }));
+  return task !== null;
+};
+
 const createTask = ({ note, status }) => {
   connection.getConnection()
     .then((db) => db.collection('tasks')
