@@ -1,6 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const taskModel = require('../models/taskModel');
-const { taskDataSchema } = require('./schemas');
+const { taskDataSchema, statusSchema } = require('./schemas');
 
 const titleCase = (string) => string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 
@@ -62,7 +62,7 @@ const updateTaskById = async ({ id, note, status }) => {
 };
 
 const updateTaskStatusById = async ({ id, status }) => {
-  const { error } = taskDataSchema.validate({ status });
+  const { error } = statusSchema.validate(status);
   if (error) { // error.isJoi indentifica se o erro foi do tipo Joi
     const { message } = error.details[0];
     return { code: StatusCodes.BAD_REQUEST, message };
