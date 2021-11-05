@@ -7,9 +7,9 @@ taskRouter.post('/', taskController.createTask);
 
 taskRouter.get('/', taskController.findAllTasks);
 
-taskRouter.put('/:id', taskController.updateTaskById);
+taskRouter.put('/:id/status', taskController.updateTaskStatusById);
 
-taskRouter.put('/:id', taskController.updateTaskStatusById);
+taskRouter.put('/:id', taskController.updateTaskById);
 
 module.exports = {
   taskRouter,
