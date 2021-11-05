@@ -11,6 +11,8 @@ taskRouter.put('/:id/status', taskController.updateTaskStatusById);
 
 taskRouter.put('/:id', taskController.updateTaskById);
 
+taskRouter.delete('/:id', taskController.deleteTaskById);
+
 module.exports = {
   taskRouter,
 };
