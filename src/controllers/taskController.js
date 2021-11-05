@@ -10,6 +10,13 @@ const createTask = async (req, res) => {
   return res.status(code).json({ task });
 };
 
+const findAllTasks = async (_req, res) => {
+  const { code, tasks } = await taskService.findAllTasks();
+
+  return res.status(code).json({ tasks });
+};
+
 module.exports = {
   createTask,
+  findAllTasks,
 };
