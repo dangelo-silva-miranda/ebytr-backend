@@ -1,11 +1,20 @@
 const { StatusCodes } = require('http-status-codes');
 const taskModel = require('../models/taskModel');
 
-const createTask = async ({ note, status }) => {
-  const task = await taskModel.createUser({ note, status });
+const titleCase = (string) => string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+
+const createTask = async ({ note: newNote, status }) => {
+  const note = titleCase(newNote.trim());
+
+  const taskExists = await taskModel.taskExists(note);
+  if (taskExists) {
+    return { code: StatusCodes.CONFLICT, message: 'Task already registered.' };
+  }
+
+  const task = await taskModel.createTask({ note, status });
 
   return {
-    status: StatusCodes.CREATED,
+    code: StatusCodes.CREATED,
     message: task,
   };
 };
