@@ -1,5 +1,6 @@
 const cors = require('cors');
 const express = require('express');
+const { taskRouter } = require('../routers/taskRouter');
 
 const app = express();
 app.use(cors());
@@ -13,5 +14,8 @@ app.use(express.json());
 app.get('/', (request, response) => {
   response.send('Server is online');
 });
+
+/* Todas as rotas com /task/<alguma-coisa> entram aqui e vão para o roteador */
+app.use('/task', taskRouter);
 
 module.exports = app;
