@@ -23,4 +23,5 @@ const createTask = ({ note, status }) => {
 
 module.exports = {
   createTask,
+  taskExists,
 };
